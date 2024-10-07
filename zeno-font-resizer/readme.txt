@@ -3,9 +3,10 @@ Contributors: mpol
 Tags: font size, text size, text resizer, font resizer, accessibility
 Requires at least: 4.1
 Tested up to: 6.6
-Stable tag: 1.8.0
+Stable tag: 1.8.1
 License: GPLv2
 Requires PHP: 7.0
+Forked from: https://plugins.trac.wordpress.org/browser/font-resizer/
 
 Zeno Font Resizer allows the visitors of your website to change the font size of your text.
 
@@ -101,6 +102,12 @@ More information can be found in the [Handbook](https://make.wordpress.org/acces
 There is an additional plugin on [Codeberg](https://codeberg.org/cyclotouriste/zeno-font-resizer-shortcode) you can use for that.
 
 == Changelog ==
+
+= 1.8.1 =
+* 2024-10-07
+* Loading plugin translations should be delayed until init action.
+* Use __DIR__ instead of dirname(__FILE__).
+* Check for direct access of files.
 
 = 1.8.0 =
 * 2023-02-15

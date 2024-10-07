@@ -4,6 +4,10 @@
  * Zeno Font Resizer Widget
  */
 
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
+
 if ( function_exists('register_sidebar') && class_exists('WP_Widget') ) {
 	class Zeno_FR_Widget extends WP_Widget {
 

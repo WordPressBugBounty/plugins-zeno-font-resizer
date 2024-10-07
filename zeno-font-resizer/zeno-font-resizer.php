@@ -4,7 +4,7 @@ Plugin Name: Zeno Font Resizer
 Plugin URI: https://wordpress.org/plugins/zeno-font-resizer/
 Description: Zeno Font Resizer allows the visitors of your website to change the font size of your text.
 Author: Marcel Pol
-Version: 1.8.0
+Version: 1.8.1
 Author URI: https://timelord.nl
 Text Domain: zeno-font-resizer
 Domain Path: /lang/
@@ -12,7 +12,7 @@ Domain Path: /lang/
 
 
 Copyright 2010 - 2013  Cubetech GmbH
-Copyright 2015 - 2023  Marcel Pol    (marcel@timelord.nl)
+Copyright 2015 - 2024  Marcel Pol    (marcel@timelord.nl)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -30,8 +30,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
+
 // Plugin Version.
-define('ZENO_FR_VER', '1.8.0');
+define('ZENO_FR_VER', '1.8.1');
 
 
 /*
@@ -208,7 +211,7 @@ add_action('wp_head', 'zeno_font_resizer_head_style');
  * Add Settings link to the main Plugin page.
  */
 function zeno_font_resizer_links( $links, $file ) {
-	if ( $file === plugin_basename( dirname(__FILE__) . '/zeno-font-resizer.php' ) ) {
+	if ( $file === plugin_basename( __DIR__ . '/zeno-font-resizer.php' ) ) {
 		$links[] = '<a href="' . admin_url( 'options-general.php?page=zeno-font-resizer' ) . '">' . esc_html__( 'Settings', 'zeno-font-resizer' ) . '</a>';
 	}
 	return $links;
@@ -220,9 +223,11 @@ add_filter( 'plugin_action_links', 'zeno_font_resizer_links', 10, 2 );
  * Load language files for frontend and backend.
  */
 function zeno_font_resizer_load_lang() {
-	load_plugin_textdomain( 'zeno-font-resizer', false, plugin_basename(dirname(__FILE__)) . '/lang' );
+
+	load_plugin_textdomain( 'zeno-font-resizer', false, plugin_basename( __DIR__ ) . '/lang' );
+
 }
-add_action('plugins_loaded', 'zeno_font_resizer_load_lang');
+add_action( 'init', 'zeno_font_resizer_load_lang' );
 
 
 /*
