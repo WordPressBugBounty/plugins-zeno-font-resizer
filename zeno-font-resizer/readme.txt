@@ -2,8 +2,8 @@
 Contributors: mpol
 Tags: font size, text size, text resizer, font resizer, accessibility
 Requires at least: 4.1
-Tested up to: 6.6
-Stable tag: 1.8.1
+Tested up to: 6.8
+Stable tag: 1.8.2
 License: GPLv2
 Requires PHP: 7.0
 Forked from: https://plugins.trac.wordpress.org/browser/font-resizer/
@@ -102,6 +102,11 @@ More information can be found in the [Handbook](https://make.wordpress.org/acces
 There is an additional plugin on [Codeberg](https://codeberg.org/cyclotouriste/zeno-font-resizer-shortcode) you can use for that.
 
 == Changelog ==
+
+= 1.8.2 =
+* 2025-07-18
+* Sanitize settings correctly.
+* Remove option for ownid, doesn't work with sanitizing.
 
 = 1.8.1 =
 * 2024-10-07

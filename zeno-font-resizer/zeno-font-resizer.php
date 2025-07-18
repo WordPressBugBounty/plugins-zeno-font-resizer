@@ -1,10 +1,10 @@
 <?php
 /*
 Plugin Name: Zeno Font Resizer
-Plugin URI: https://wordpress.org/plugins/zeno-font-resizer/
+Plugin URI: https://zenoweb.nl
 Description: Zeno Font Resizer allows the visitors of your website to change the font size of your text.
 Author: Marcel Pol
-Version: 1.8.1
+Version: 1.8.2
 Author URI: https://timelord.nl
 Text Domain: zeno-font-resizer
 Domain Path: /lang/
@@ -12,7 +12,7 @@ Domain Path: /lang/
 
 
 Copyright 2010 - 2013  Cubetech GmbH
-Copyright 2015 - 2024  Marcel Pol    (marcel@timelord.nl)
+Copyright 2015 - 2025  Marcel Pol    (marcel@timelord.nl)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -34,14 +34,13 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 
 // Plugin Version.
-define('ZENO_FR_VER', '1.8.1');
+define('ZENO_FR_VER', '1.8.2');
 
 
 /*
  * Add the options to WordPress if they don't exist.
  */
 add_option('zeno_font_resizer',             'html');
-add_option('zeno_font_resizer_ownid',       ''    );
 add_option('zeno_font_resizer_ownelement',  ''    );
 add_option('zeno_font_resizer_resizeMax',   '24'  );
 add_option('zeno_font_resizer_resizeMin',   '10'  );
@@ -163,8 +162,7 @@ function zeno_font_resizer_place( $echo = true ) {
 				'</a>
 			</span>
 			<input type="hidden" id="zeno_font_resizer_value" value="' . esc_attr( sanitize_text_field( get_option('zeno_font_resizer') ) ) . '" />
-			<input type="hidden" id="zeno_font_resizer_ownid" value="' . esc_attr( sanitize_text_field( get_option('zeno_font_resizer_ownid') ) ) . '" />
-			<input type="hidden" id="zeno_font_resizer_ownelement" value="' . esc_attr( sanitize_text_field( get_option('zeno_font_resizer_ownelement') ) ) . '" />
+			<input type="hidden" id="zeno_font_resizer_ownelement" value="' . esc_attr( wp_kses_post( get_option('zeno_font_resizer_ownelement') ) ) . '" />
 			<input type="hidden" id="zeno_font_resizer_resizeMax" value="' . esc_attr( sanitize_text_field( get_option('zeno_font_resizer_resizeMax') ) ) . '" />
 			<input type="hidden" id="zeno_font_resizer_resizeMin" value="' . esc_attr( sanitize_text_field( get_option('zeno_font_resizer_resizeMin') ) ) . '" />
 			<input type="hidden" id="zeno_font_resizer_resizeSteps" value="' . esc_attr( sanitize_text_field( get_option('zeno_font_resizer_resizeSteps') ) ) . '" />
@@ -248,9 +246,8 @@ function zeno_font_resizer_register_settings() {
 		'zeno_font_resizer',
 		'zeno_font_resizer'
 	);
-	register_setting( 'zeno_font_resizer', 'zeno_font_resizer', 'strval' ); // 'html'
-	register_setting( 'zeno_font_resizer', 'zeno_font_resizer_ownid', 'strval' ); // empty by default
-	register_setting( 'zeno_font_resizer', 'zeno_font_resizer_ownelement', 'strval' ); // empty by default
+	register_setting( 'zeno_font_resizer', 'zeno_font_resizer', 'sanitize_text_field' ); // 'html'
+	register_setting( 'zeno_font_resizer', 'zeno_font_resizer_ownelement', 'sanitize_text_field' ); // empty by default
 
 	add_settings_field(
 		'zeno_font_resizer_resizeSteps',
@@ -286,7 +283,7 @@ function zeno_font_resizer_register_settings() {
 		'zeno_font_resizer',
 		'zeno_font_resizer'
 	);
-	register_setting( 'zeno_font_resizer', 'zeno_font_resizer_letter', 'strval' ); // A
+	register_setting( 'zeno_font_resizer', 'zeno_font_resizer_letter', 'sanitize_text_field' ); // A
 
 	add_settings_field(
 		'zeno_font_resizer_cookieTime',
@@ -316,11 +313,6 @@ function zeno_font_resizer_callback_function() {
 	<label>
 		<input type="radio" name="zeno_font_resizer" value="innerbody" <?php if ( get_option('zeno_font_resizer') === 'innerbody' ) echo 'checked'; ?> />
 		<?php esc_html_e( 'Use div with id innerbody (&lt;div id="innerbody"&gt;Resizable text&lt;/div&gt;).', 'zeno-font-resizer' ); ?>
-	</label><br />
-	<label>
-		<input type="radio" name="zeno_font_resizer" value="ownid" <?php if ( get_option('zeno_font_resizer') === 'ownid' ) echo 'checked'; ?> />
-		<input type="text" name="zeno_font_resizer_ownid" value="<?php echo esc_attr( sanitize_text_field( get_option('zeno_font_resizer_ownid') ) ); ?>" /><br />
-		<?php esc_html_e( 'Use your own div id (&lt;div id="yourid"&gt;Resizable text&lt;/div&gt;).', 'zeno-font-resizer' ); ?>
 	</label><br />
 	<label>
 		<input type="radio" name="zeno_font_resizer" value="ownelement" <?php if ( get_option('zeno_font_resizer') === 'ownelement' ) echo 'checked'; ?> />
@@ -370,7 +362,7 @@ function zeno_font_resizer_cookietime_callback_function() {
  */
 function zeno_font_resizer_uninstaller() {
 	delete_option('zeno_font_resizer');
-	delete_option('zeno_font_resizer_ownid');
+	delete_option('zeno_font_resizer_ownid'); // deprecated, removed in 1.8.2, but still in database.
 	delete_option('zeno_font_resizer_ownelement');
 	delete_option('zeno_font_resizer_resizeMax');
 	delete_option('zeno_font_resizer_resizeMin');

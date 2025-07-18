@@ -8,7 +8,6 @@ var zeno_font_resizer_callback    = jQuery.Callbacks(); // Callback function to 
 
 jQuery.fn.zeno_font_resizer_manager = function () {
 	var zeno_font_resizer_value       = jQuery('#zeno_font_resizer_value').val();
-	var zeno_font_resizer_ownid       = jQuery('#zeno_font_resizer_ownid').val();
 	var zeno_font_resizer_ownelement  = jQuery('#zeno_font_resizer_ownelement').val();
 	var zeno_font_resizer_resizeMax   = parseFloat( jQuery('#zeno_font_resizer_resizeMax').val() );
 	var zeno_font_resizer_resizeMin   = parseFloat( jQuery('#zeno_font_resizer_resizeMin').val() );
@@ -18,8 +17,6 @@ jQuery.fn.zeno_font_resizer_manager = function () {
 
 	if (zeno_font_resizer_value == "innerbody") {
 		zeno_font_resizer_element = "div#innerbody";
-	} else if (zeno_font_resizer_value == "ownid") {
-		zeno_font_resizer_element = "div#" + zeno_font_resizer_ownid;
 	} else if (zeno_font_resizer_value == "ownelement") {
 		zeno_font_resizer_element = zeno_font_resizer_ownelement;
 	}
