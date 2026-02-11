@@ -2,7 +2,7 @@
 Contributors: mpol
 Tags: font size, text size, text resizer, font resizer, accessibility
 Requires at least: 4.1
-Tested up to: 6.8
+Tested up to: 6.9
 Stable tag: 1.8.2
 License: GPLv2
 Requires PHP: 7.0
