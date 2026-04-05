@@ -4,7 +4,7 @@ Plugin Name: Zeno Font Resizer
 Plugin URI: https://zenoweb.nl
 Description: Zeno Font Resizer allows the visitors of your website to change the font size of your text.
 Author: Marcel Pol
-Version: 1.8.2
+Version: 2.0.0
 Author URI: https://timelord.nl
 Text Domain: zeno-font-resizer
 Domain Path: /lang/
@@ -12,7 +12,7 @@ Domain Path: /lang/
 
 
 Copyright 2010 - 2013  Cubetech GmbH
-Copyright 2015 - 2025  Marcel Pol    (marcel@timelord.nl)
+Copyright 2015 - 2026  Marcel Pol    (marcel@timelord.nl)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 
 // Plugin Version.
-define('ZENO_FR_VER', '1.8.2');
+define('ZENO_FR_VER', '2.0.0');
 
 
 /*
@@ -129,12 +129,26 @@ function zeno_font_resizer_admin_page() {
  * Enqueue the dependencies.
  */
 function zeno_font_resizer_enqueue() {
+
 	$zeno_font_resizer_path = plugins_url( 'js/', __FILE__ );
-	wp_register_script('zeno_font_resizer_cookie',   $zeno_font_resizer_path . 'js.cookie.js', array( 'jquery' ), ZENO_FR_VER, true);
-	wp_register_script('zeno_font_resizer_fontsize', $zeno_font_resizer_path . 'jquery.fontsize.js', array( 'jquery' ), ZENO_FR_VER, true);
-	wp_enqueue_script('jquery');
-	wp_enqueue_script('zeno_font_resizer_cookie');
+	wp_register_script('zeno_font_resizer_fontsize', $zeno_font_resizer_path . 'zeno-font-resizer.js', array(), ZENO_FR_VER, true);
+
+	$element = sanitize_text_field( get_option('zeno_font_resizer') );
+	if ( $element === 'ownelement' ) {
+		$element = wp_kses_post( get_option('zeno_font_resizer_ownelement') );
+	}
+
+	$data_to_be_passed = array(
+		'element'     => esc_attr( $element ),
+		'resizemax'   => esc_attr( sanitize_text_field( get_option('zeno_font_resizer_resizeMax') ) ),
+		'resizemin'   => esc_attr( sanitize_text_field( get_option('zeno_font_resizer_resizeMin') ) ),
+		'resizesteps' => esc_attr( sanitize_text_field( get_option('zeno_font_resizer_resizeSteps') ) ),
+		'cookietime'  => (int) get_option('zeno_font_resizer_cookieTime'),
+	);
+	wp_localize_script( 'zeno_font_resizer_fontsize', 'zeno_font_resizer_script', $data_to_be_passed );
+
 	wp_enqueue_script('zeno_font_resizer_fontsize');
+
 }
 add_action('wp_enqueue_scripts', 'zeno_font_resizer_enqueue');
 
@@ -147,6 +161,7 @@ add_action('wp_enqueue_scripts', 'zeno_font_resizer_enqueue');
  *            - false: return the template code.
  */
 function zeno_font_resizer_place( $echo = true ) {
+
 	$html = '
 	<div class="zeno_font_resizer_container">
 		<p class="zeno_font_resizer" style="text-align: center; font-weight: bold;">
@@ -161,20 +176,16 @@ function zeno_font_resizer_place( $echo = true ) {
 					esc_attr( sanitize_text_field( get_option('zeno_font_resizer_letter') ) ) . '<span class="screen-reader-text"> ' . esc_html__('Increase font size.', 'zeno-font-resizer') . '</span>' .
 				'</a>
 			</span>
-			<input type="hidden" id="zeno_font_resizer_value" value="' . esc_attr( sanitize_text_field( get_option('zeno_font_resizer') ) ) . '" />
-			<input type="hidden" id="zeno_font_resizer_ownelement" value="' . esc_attr( wp_kses_post( get_option('zeno_font_resizer_ownelement') ) ) . '" />
-			<input type="hidden" id="zeno_font_resizer_resizeMax" value="' . esc_attr( sanitize_text_field( get_option('zeno_font_resizer_resizeMax') ) ) . '" />
-			<input type="hidden" id="zeno_font_resizer_resizeMin" value="' . esc_attr( sanitize_text_field( get_option('zeno_font_resizer_resizeMin') ) ) . '" />
-			<input type="hidden" id="zeno_font_resizer_resizeSteps" value="' . esc_attr( sanitize_text_field( get_option('zeno_font_resizer_resizeSteps') ) ) . '" />
-			<input type="hidden" id="zeno_font_resizer_cookieTime" value="' . esc_attr( sanitize_text_field( get_option('zeno_font_resizer_cookieTime') ) ) . '" />
 		</p>
 	</div>
 	';
+
 	if ( $echo === true ) {
 		echo $html;
 	} else {
 		return $html;
 	}
+
 }
 
 
@@ -202,7 +213,7 @@ function zeno_font_resizer_head_style() {
 	</style>
 	';
 }
-add_action('wp_head', 'zeno_font_resizer_head_style');
+add_action( 'wp_head', 'zeno_font_resizer_head_style' );
 
 
 /*
@@ -309,10 +320,6 @@ function zeno_font_resizer_callback_function() {
 	<label>
 		<input type="radio" name="zeno_font_resizer" value="body" <?php if ( get_option('zeno_font_resizer') === 'body' ) echo 'checked'; ?> />
 		<?php esc_html_e( 'Resize whole content in body element (&lt;body&gt;All content of your site&lt;/body&gt;).', 'zeno-font-resizer' ); ?>
-	</label><br />
-	<label>
-		<input type="radio" name="zeno_font_resizer" value="innerbody" <?php if ( get_option('zeno_font_resizer') === 'innerbody' ) echo 'checked'; ?> />
-		<?php esc_html_e( 'Use div with id innerbody (&lt;div id="innerbody"&gt;Resizable text&lt;/div&gt;).', 'zeno-font-resizer' ); ?>
 	</label><br />
 	<label>
 		<input type="radio" name="zeno_font_resizer" value="ownelement" <?php if ( get_option('zeno_font_resizer') === 'ownelement' ) echo 'checked'; ?> />

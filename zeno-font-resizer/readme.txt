@@ -3,7 +3,7 @@ Contributors: mpol
 Tags: font size, text size, text resizer, font resizer, accessibility
 Requires at least: 4.1
 Tested up to: 6.9
-Stable tag: 1.8.2
+Stable tag: 2.0.0
 License: GPLv2
 Requires PHP: 7.0
 Forked from: https://plugins.trac.wordpress.org/browser/font-resizer/
@@ -16,7 +16,7 @@ This plugin allows you to give the visitors of your site the option to change th
 
 Features:
 
-* Uses JavaScript and jQuery to set the fontsize.
+* Uses JavaScript to set the fontsize.
 * Settings are saved in a cookie, so the visitor sees the same fontsize on a revisit.
 * Admin page to set which content is being resized, the resize steps and other options.
 * There is a classic widget.
@@ -42,11 +42,13 @@ This plugin is also available in [Codeberg](https://codeberg.org/cyclotouriste/z
 4. If you don't want to use the widget, you can use the template code somewhere in your template. Please check the FAQ.
 5. Define which content should be resized on the 'Zeno Font Resizer' admin page (optional). If you are not familiar with html and css, select the html option (default). This would resize all the content of your site.
 
+
 == Screenshots ==
 
 1. A productive example of the widget.
 2. Adding the widget.
 3. Settings page.
+
 
 == Frequently Asked Questions ==
 
@@ -101,7 +103,17 @@ More information can be found in the [Handbook](https://make.wordpress.org/acces
 
 There is an additional plugin on [Codeberg](https://codeberg.org/cyclotouriste/zeno-font-resizer-shortcode) you can use for that.
 
+
 == Changelog ==
+
+= 2.0.0 =
+* 2026-04-05
+* Rewrite jQuery into vanilla JavaScript.
+* Drop jQuery dependancy and its plugins.
+* Use 'wp_localize_script' for settings in JavaScript.
+* Set License of JavaScript to GPLv2.
+* Remove option for innerbody, makes no sense.
+* Add uninstall.php for cleanup after uninstall.
 
 = 1.8.2 =
 * 2025-07-18
