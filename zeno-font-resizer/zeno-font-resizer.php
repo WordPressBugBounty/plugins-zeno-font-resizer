@@ -4,7 +4,7 @@ Plugin Name: Zeno Font Resizer
 Plugin URI: https://zenoweb.nl
 Description: Zeno Font Resizer allows the visitors of your website to change the font size of your text.
 Author: Marcel Pol
-Version: 2.0.0
+Version: 2.0.1
 Author URI: https://timelord.nl
 Text Domain: zeno-font-resizer
 Domain Path: /lang/
@@ -13,6 +13,7 @@ Domain Path: /lang/
 
 Copyright 2010 - 2013  Cubetech GmbH
 Copyright 2015 - 2026  Marcel Pol    (marcel@timelord.nl)
+Copyright 2026         trparky
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -34,13 +35,13 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 
 // Plugin Version.
-define('ZENO_FR_VER', '2.0.0');
+define('ZENO_FR_VER', '2.0.1');
 
 
 /*
  * Add the options to WordPress if they don't exist.
  */
-add_option('zeno_font_resizer',             'html');
+add_option('zeno_font_resizer',             'html'); // Use html as default element for compatibility with rem sizes.
 add_option('zeno_font_resizer_ownelement',  ''    );
 add_option('zeno_font_resizer_resizeMax',   '24'  );
 add_option('zeno_font_resizer_resizeMin',   '10'  );

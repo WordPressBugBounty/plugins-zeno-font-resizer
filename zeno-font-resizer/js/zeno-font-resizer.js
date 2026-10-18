@@ -5,6 +5,7 @@ Plugin URI: https://wordpress.org/plugins/zeno-font-resizer/
 
 Copyright 2010 - 2013  Cubetech GmbH
 Copyright 2015 - 2026  Marcel Pol  (marcel@timelord.nl)
+Copyright 2026         trparky
 License: GPLv2 or later
 
 This program is free software; you can redistribute it and/or modify
@@ -54,16 +55,22 @@ document.addEventListener('DOMContentLoaded', function () {
 	function zeno_font_resizer_set_fontsize( fontsize ) {
 
 		var element_name = zeno_font_resizer_settings.element;
-		if ( element_name ) {
-			var element = document.querySelector( element_name );
-			if ( element ) {
 
-				element.style.fontSize = fontsize + 'px';
-
-				zeno_font_resizer_set_cookie( fontsize );
-
-			}
+		if ( ! element_name ) {
+			return;
 		}
+
+		const elements = document.querySelectorAll( element_name );
+
+		if ( elements.length === 0 ) {
+			return;
+		}
+
+		elements.forEach( element => {
+			element.style.fontSize = fontsize + 'px';
+		});
+
+		zeno_font_resizer_set_cookie( fontsize );
 
 	}
 

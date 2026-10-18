@@ -2,8 +2,8 @@
 Contributors: mpol
 Tags: font size, text size, text resizer, font resizer, accessibility
 Requires at least: 4.1
-Tested up to: 6.9
-Stable tag: 2.0.0
+Tested up to: 7.1
+Stable tag: 2.0.1
 License: GPLv2
 Requires PHP: 7.0
 Forked from: https://plugins.trac.wordpress.org/browser/font-resizer/
@@ -105,6 +105,10 @@ There is an additional plugin on [Codeberg](https://codeberg.org/cyclotouriste/z
 
 
 == Changelog ==
+
+= 2.0.1 =
+* 2026-10-18
+* When using a custom element, target all elements (thanks trparky);
 
 = 2.0.0 =
 * 2026-04-05
